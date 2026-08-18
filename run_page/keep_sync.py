@@ -246,6 +246,9 @@ def get_all_keep_tracks(
             print(f"parsing keep id {run}")
             try:
                 run_data = get_single_run_data(s, headers, run, api)
+                # ★ 只保留户外/室内跑步，剔除步行、徒步、骑行
+                if run_data["data"].get("dataType") not in ("outdoorRunning", "indoorRunning"):
+                    continue
                 track = parse_raw_data_to_nametuple(
                     run_data, old_gpx_ids, old_tcx_ids, with_gpx, with_tcx
                 )
